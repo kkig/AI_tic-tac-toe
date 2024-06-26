@@ -22,7 +22,28 @@ def player(board):
     """
     Returns player who has the next turn on a board.
     """
-    raise NotImplementedError
+    if len(board) == 0 or len(board[0]) == 0:
+        raise ValueError("Invalid board state")
+
+    total_cells = 0
+    filled_cells = 0
+
+    for row in board:
+        total_cells += len(row)
+
+        filled_cells += row.count(X)
+        filled_cells += row.count(O)
+
+    # All cells are already filled
+    if filled_cells == total_cells:
+        return None
+    
+    # Player is X or initial start
+    if filled_cells%2 == 0:
+        return X
+    
+    # Player is O
+    return O
 
 
 def actions(board):
