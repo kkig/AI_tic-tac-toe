@@ -22,12 +22,13 @@ def player(board):
     """
     Returns player who has the next turn on a board.
     """
+    # Validate input
     if len(board) == 0 or len(board[0]) == 0:
         raise ValueError("Invalid board state")
 
-    total_cells = 0
-    filled_cells = 0
+    total_cells, filled_cells = 0, 0
 
+    # Count cells
     for row in board:
         total_cells += len(row)
 
@@ -50,7 +51,24 @@ def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
-    raise NotImplementedError
+    # Validate input
+    if len(board) == 0 or len(board[0]) == 0:
+        raise ValueError("Invalid board state")
+    
+    # Get all possible actions (i, j)
+    result = set()
+    for i, row in enumerate(board):
+        while None in row:
+            j = row.index(None)
+            result.add((i, j))
+            row[j] = "X"
+
+    # No action was available
+    if len(result) == 0:
+        return None
+    
+    # Return pairs
+    return result
 
 
 def result(board, action):
