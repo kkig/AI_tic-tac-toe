@@ -4,6 +4,7 @@ Tic Tac Toe Player
 
 import math
 import copy
+from util import *
 
 X = "X"
 O = "O"
@@ -60,8 +61,8 @@ def actions(board):
     result = set()
     board = copy.deepcopy(board)
     for i, row in enumerate(board):
-        while None in row:
-            j = row.index(None)
+        while EMPTY in row:
+            j = row.index(EMPTY)
             result.add((i, j))
             row[j] = "X"
 
@@ -83,7 +84,7 @@ def result(board, action):
     
     x, y = action
 
-    if board[x][y] != None:
+    if board[x][y] != EMPTY:
         raise ValueError("Invalid action")
     
     board = copy.deepcopy(board)
@@ -96,7 +97,18 @@ def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    raise NotImplementedError
+    for row in enumerate(board):
+        # Holizontal match
+        if result := hol_match(row):
+            return result   
+
+    if result := ver_match(board):
+        return result  
+    
+    if result := diagnal_match(board):
+        return result
+    
+    return None
 
 
 def terminal(board):

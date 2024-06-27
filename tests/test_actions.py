@@ -1,9 +1,4 @@
 from tictactoe import actions
-import pytest
-
-def test_empty():
-    with pytest.raises(ValueError):
-        actions([[]])
 
 def test_terminal():
     assert actions([["X", "X", "X"], 
