@@ -24,10 +24,6 @@ def player(board):
     """
     Returns player who has the next turn on a board.
     """
-    # Validate input
-    if len(board) == 0 or len(board[0]) == 0:
-        raise ValueError("Invalid board state")
-
     total_cells, filled_cells = 0, 0
 
     # Count cells
@@ -52,11 +48,7 @@ def player(board):
 def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
-    """
-    # Validate input
-    if len(board) == 0 or len(board[0]) == 0:
-        raise ValueError("Invalid board state")
-    
+    """    
     # Get all possible actions (i, j)
     result = set()
     board = copy.deepcopy(board)
@@ -64,7 +56,7 @@ def actions(board):
         while EMPTY in row:
             j = row.index(EMPTY)
             result.add((i, j))
-            row[j] = "X"
+            row[j] = X
 
     # No action was available
     if len(result) == 0:
@@ -78,10 +70,6 @@ def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    # Validate input
-    if len(board) == 0 or len(board[0]) == 0:
-        raise ValueError("Invalid board state")
-    
     x, y = action
 
     if board[x][y] != EMPTY:

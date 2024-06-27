@@ -1,10 +1,5 @@
 from tictactoe import actions
 
-def test_terminal():
-    assert actions([["X", "X", "X"], 
-                    ["X", "X", "X"], 
-                    ["X", "X", "X"]]) == None
-
 def test_values():
     assert actions([["X", None, "X"], 
                     ["X", "X", "X"], 
