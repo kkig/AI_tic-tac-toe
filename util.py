@@ -11,21 +11,33 @@ def hol_match(row):
 
 def ver_match(board):
     """
+    board: list of row lists
     Check vertical match.
     Returns winner of the match, if there is one.
     """
+    row, _, _ = board
+    
     # Horizontal ptr
-    for i, elem in enumerate(board[0]):
-        if elem == None:
-            continue
+    for i in range(len(row)):
+        cell_val = board[0][i]
+        evals = [cell_val == board[j][i] for j in range(1, len(board))]
+
+        if False not in evals:
+            return cell_val  
+    return None      
+    
+
+    # for i, elem in enumerate(row):
+    #     if elem == None:
+    #         continue
         
-        # Vertical ptr
-        for j in range(1, len(board)):
-            if board[j][i] != elem:
-                break        
-        else:
-            return elem
-    return None
+    #     # Vertical ptr
+    #     for j in range(1, len(board)):
+    #         if board[j][i] != elem:
+    #             break        
+    #     else:
+    #         return elem
+    # return None
 
 
 def diagnal_match(board):
@@ -64,4 +76,9 @@ def diagnal_match(board):
 
     return None
     
-
+def is_empty(board):
+    for row in board:
+        if None in row:
+            return False
+            
+    return True

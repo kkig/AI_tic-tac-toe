@@ -101,9 +101,29 @@ def winner(board):
 
 def terminal(board):
     """
+    board: A list of lists containg values, representing board.
+    Assume input will be valid.
+
     Returns True if game is over, False otherwise.
     """
-    raise NotImplementedError
+    # No more available space
+    if is_empty(board):
+        return True
+    
+    # Horizontal match
+    for row in board:
+        if hol_match(row):
+            return True
+    
+    # Vertical match
+    if ver_match(board):
+        return True
+    
+    # Diagnal match
+    if diagnal_match(board):
+        return True
+    
+    return False
 
 
 def utility(board):
