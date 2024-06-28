@@ -128,9 +128,34 @@ def terminal(board):
 
 def utility(board):
     """
+    board: A list of lists containg values, representing board.
+    Assume input will be valid.
+    Assume to be called when terminal(board) is True.
+
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
     """
-    raise NotImplementedError
+    def util_val(winner):
+        if winner == X:
+            return 1
+        if winner == O:
+            return -1    
+        return 0
+    
+    # Horizontal match
+    for row in board:
+        if winner := hol_match(row):
+            return util_val(winner)
+    
+    # Vertical match
+    if winner := ver_match(board):
+        return util_val(winner)
+    
+    # Diagnal match
+    if winner := diagnal_match(board):
+        return util_val(winner)
+    
+    # No winner, a tie
+    return 0
 
 
 def minimax(board):

@@ -25,19 +25,6 @@ def ver_match(board):
         if False not in evals:
             return cell_val  
     return None      
-    
-
-    # for i, elem in enumerate(row):
-    #     if elem == None:
-    #         continue
-        
-    #     # Vertical ptr
-    #     for j in range(1, len(board)):
-    #         if board[j][i] != elem:
-    #             break        
-    #     else:
-    #         return elem
-    # return None
 
 
 def diagnal_match(board):
