@@ -22,6 +22,9 @@ def initial_state():
 
 def player(board):
     """
+    board: A list of lists containg values, representing board.
+    Assume input will be valid.
+
     Returns player who has the next turn on a board.
     """
     total_cells, filled_cells = 0, 0
@@ -29,9 +32,7 @@ def player(board):
     # Count cells
     for row in board:
         total_cells += len(row)
-
-        filled_cells += row.count(X)
-        filled_cells += row.count(O)
+        filled_cells += sum(1 for x in row if x != EMPTY)
 
     # All cells are already filled
     if filled_cells == total_cells:
@@ -47,6 +48,9 @@ def player(board):
 
 def actions(board):
     """
+    board: A list of lists containg values, representing board.
+    Assume input will be valid.
+
     Returns set of all possible actions (i, j) available on the board.
     """    
     # Get all possible actions (i, j)
@@ -68,32 +72,40 @@ def actions(board):
 
 def result(board, action):
     """
+    board: A list of lists containg values, representing board.
+    Assume input will be valid.
+    action: Tuple, (i, j) coordinate on the board to fill.
+
     Returns the board that results from making move (i, j) on the board.
     """
-    x, y = action
+    i, j = action
 
-    if board[x][y] != EMPTY:
+    if board[i][j] != EMPTY:
         raise ValueError("Invalid action")
     
     board = copy.deepcopy(board)
-    board[x][y] = player(board)
+    board[i][j] = player(board)
 
     return board
 
 
 def winner(board):
     """
+    board: A list of lists containg values, representing board.
+    Assume input will be valid.
+
     Returns the winner of the game, if there is one.
     """
-    for row in enumerate(board):
-        # Holizontal match
-        if result := hol_match(row):
-            return result   
-
-    if result := ver_match(board):
-        return result  
-    
+    # Diagnal match
     if result := diagnal_match(board):
+        return result
+    
+    # Horizontal match
+    for row in board:
+        if result := hol_match(row):
+            return result
+        
+    if result := ver_match(board):
         return result
     
     return None
@@ -111,55 +123,33 @@ def terminal(board):
         return True
     
     # Horizontal match
-    for row in board:
-        if hol_match(row):
-            return True
-    
-    # Vertical match
-    if ver_match(board):
-        return True
-    
-    # Diagnal match
-    if diagnal_match(board):
+    if winner(board):
         return True
     
     return False
 
 
 def utility(board):
-    """
+    """    
     board: A list of lists containg values, representing board.
     Assume input will be valid.
-    Assume to be called when terminal(board) is True.
 
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
+
+    Assume to be called when terminal(board) is True.
     """
-    def util_val(winner):
-        if winner == X:
-            return 1
-        if winner == O:
-            return -1    
-        return 0
+    if result := winner(board):
+        return 1 if result == X else -1
     
-    # Horizontal match
-    for row in board:
-        if winner := hol_match(row):
-            return util_val(winner)
-    
-    # Vertical match
-    if winner := ver_match(board):
-        return util_val(winner)
-    
-    # Diagnal match
-    if winner := diagnal_match(board):
-        return util_val(winner)
-    
-    # No winner, a tie
     return 0
 
 
 def minimax(board):
     """
+    board: A list of lists containg values, representing board.
+    Assume input will be valid.
+
     Returns the optimal action for the current player on the board.
+    Return None when board is terminal.
     """
     raise NotImplementedError
